@@ -5,14 +5,15 @@ package org.radar.radarlint;
  * @author Victor
  */
 public enum Severity {
-    BLOCKER("Blocker", "/qubexplorer/ui/images/blocker.png"),
-    CRITICAL("Critical", "/qubexplorer/ui/images/critical.png"),
-    MAJOR("Major", "/qubexplorer/ui/images/major.png"),
-    MINOR("Minor", "/qubexplorer/ui/images/minor.png"),
-    INFO("Info", "/qubexplorer/ui/images/info.png");
+    BLOCKER("Blocker", "/org/radar/radarlint/images/blocker.png"),
+    CRITICAL("Critical", "/org/radar/radarlint/images/critical.png"),
+    MAJOR("Major", "/org/radar/radarlint/images/major.png"),
+    MINOR("Minor", "/org/radar/radarlint/images/minor.png"),
+    INFO("Info", "/org/radar/radarlint/images/info.png");
     
     private final String userDescription;
     private final String resourcePath;
+    private boolean visible = true;
 
     private Severity(String userDescription, String resourcePath) {
         this.userDescription = userDescription;
@@ -26,5 +27,13 @@ public enum Severity {
     public String getResourcePath() {
         return resourcePath;
     }
-    
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
 }

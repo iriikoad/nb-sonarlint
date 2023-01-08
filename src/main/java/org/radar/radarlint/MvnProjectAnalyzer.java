@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -46,5 +47,27 @@ public class MvnProjectAnalyzer {
         }
         return groupId + ":" + model.getArtifactId();
     }
-    
+//
+//    public List<String> getProjectKeys(Model model) {
+//        List<String> keys = new ArrayList<>();
+//        String projectKey = model.getProperties().getProperty("sonar.projectKey");
+//        if (projectKey != null) {
+//            keys.add(projectKey);
+//        }
+//        do {
+//            Parent p = model.getParent();
+//            String groupId = model.getGroupId();
+//            if (groupId == null && p != null) {
+//                groupId = p.getGroupId();
+//            }
+//            keys.add(groupId + ":" + model.getArtifactId());
+//            if (p != null) {
+//                //p = model.getParent()
+//            }
+//
+//        } while (model.getParent() != null);
+//
+//        return keys;
+//    }
+  
 }

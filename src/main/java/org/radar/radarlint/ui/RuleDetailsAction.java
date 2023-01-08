@@ -15,7 +15,7 @@ import org.openide.util.NbBundle;
 import org.openide.windows.WindowManager;
 import org.radar.radarlint.EditorAnnotator;
 import org.radar.radarlint.SonarLintEngineFactory;
-import org.sonarsource.sonarlint.core.client.api.connected.Language;
+import org.sonarsource.sonarlint.core.client.api.common.Language;
 
 /**
  *
@@ -26,12 +26,12 @@ import org.sonarsource.sonarlint.core.client.api.connected.Language;
     "show-rule-details=Show Rule Details"
 })
 @EditorActionRegistration(
-    category = "Navigate",
-    name = "show-rule-details",
-    popupText = "Show Rule Details",
-    popupPosition = 10000
+        category = "Navigate",
+        name = "show-rule-details",
+        popupText = "Show Rule Details",
+        popupPosition = 10000
 )
-public class RuleDetailsAction extends BaseAction{
+public class RuleDetailsAction extends BaseAction {
 
     @Override
     public void actionPerformed(ActionEvent ae, JTextComponent component) {
@@ -41,13 +41,13 @@ public class RuleDetailsAction extends BaseAction{
         Source source = Source.create(component.getDocument());
         FileObject fileObject = source.getFileObject();
         EditorAnnotator.getInstance().getIssueAnnotation(fileObject, lineNumber)
-            .ifPresentOrElse(issueAnnotation -> {
-                RuleDialog.showRule(WindowManager.getDefault().getMainWindow(), SonarLintEngineFactory.getOrCreateEngine(Language.values()).getRuleDetails(issueAnnotation.getIssue().getRuleKey()));
-            }, () -> {
-                Toolkit.getDefaultToolkit().beep();
-                ResourceBundle bundle = NbBundle.getBundle(RuleDetailsAction.class);
-                DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message(bundle.getString("RuleDetailsAction.noIssueAtLocation"), NotifyDescriptor.WARNING_MESSAGE));
-            });
+                .ifPresentOrElse(issueAnnotation -> {
+                    RuleDialog.showRule(WindowManager.getDefault().getMainWindow(), SonarLintEngineFactory.getOrCreateEngine(Language.values()).getRuleDetails(issueAnnotation.getIssue().getRuleKey()));
+                }, () -> {
+                    Toolkit.getDefaultToolkit().beep();
+                    ResourceBundle bundle = NbBundle.getBundle(RuleDetailsAction.class);
+                    DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message(bundle.getString("RuleDetailsAction.noIssueAtLocation"), NotifyDescriptor.WARNING_MESSAGE));
+                });
     }
-    
+
 }

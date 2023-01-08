@@ -17,7 +17,7 @@ import org.openide.util.NbBundle;
 import org.openide.windows.WindowManager;
 import org.radar.radarlint.ui.RuleDetailsAction;
 import org.radar.radarlint.ui.RuleDialog;
-import org.sonarsource.sonarlint.core.client.api.connected.Language;
+import org.sonarsource.sonarlint.core.client.api.common.Language;
 
 /**
  *
@@ -34,7 +34,7 @@ public class IssueRuleHyperlinkProvider implements HyperlinkProviderExt {
     @Override
     public boolean isHyperlinkPoint(Document document, int offset, HyperlinkType ht) {
         Element root = document.getDefaultRootElement();
-        int lineNumber = root.getElementIndex(offset)+1;
+        int lineNumber = root.getElementIndex(offset) + 1;
         Source source = Source.create(document);
         FileObject fileObject = source.getFileObject();
         return EditorAnnotator.getInstance().getIssueAnnotation(fileObject, lineNumber).isPresent();
@@ -43,13 +43,13 @@ public class IssueRuleHyperlinkProvider implements HyperlinkProviderExt {
     @Override
     public int[] getHyperlinkSpan(Document document, int offset, HyperlinkType ht) {
         Element root = document.getDefaultRootElement();
-        int lineNumber = root.getElementIndex(offset)+1;
+        int lineNumber = root.getElementIndex(offset) + 1;
         Source source = Source.create(document);
         FileObject fileObject = source.getFileObject();
-        if(EditorAnnotator.getInstance().getIssueAnnotation(fileObject, lineNumber).isPresent()) {
+        if (EditorAnnotator.getInstance().getIssueAnnotation(fileObject, lineNumber).isPresent()) {
             Element lineElement = root.getElement(root.getElementIndex(offset));
             return new int[]{lineElement.getStartOffset(), lineElement.getEndOffset()};
-        }else{
+        } else {
             return null;
         }
     }
@@ -57,22 +57,22 @@ public class IssueRuleHyperlinkProvider implements HyperlinkProviderExt {
     @Override
     public void performClickAction(Document document, int offset, HyperlinkType ht) {
         Element root = document.getDefaultRootElement();
-        int lineNumber = root.getElementIndex(offset)+1;
+        int lineNumber = root.getElementIndex(offset) + 1;
         Source source = Source.create(document);
         FileObject fileObject = source.getFileObject();
         EditorAnnotator.getInstance().getIssueAnnotation(fileObject, lineNumber)
-            .ifPresentOrElse(issueAnnotation -> {
-                RuleDialog.showRule(WindowManager.getDefault().getMainWindow(), SonarLintEngineFactory.getOrCreateEngine(Language.values()).getRuleDetails(issueAnnotation.getIssue().getRuleKey()));
-            }, () -> {
-                Toolkit.getDefaultToolkit().beep();
-                ResourceBundle bundle = NbBundle.getBundle(RuleDetailsAction.class);
-                DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message(bundle.getString("RuleDetailsAction.noIssueAtLocation"), NotifyDescriptor.WARNING_MESSAGE));
-            });
+                .ifPresentOrElse(issueAnnotation -> {
+                    RuleDialog.showRule(WindowManager.getDefault().getMainWindow(), SonarLintEngineFactory.getOrCreateEngine(Language.values()).getRuleDetails(issueAnnotation.getIssue().getRuleKey()));
+                }, () -> {
+                    Toolkit.getDefaultToolkit().beep();
+                    ResourceBundle bundle = NbBundle.getBundle(RuleDetailsAction.class);
+                    DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message(bundle.getString("RuleDetailsAction.noIssueAtLocation"), NotifyDescriptor.WARNING_MESSAGE));
+                });
     }
 
     @Override
     public String getTooltipText(Document dcmnt, int i, HyperlinkType ht) {
         return "Show Rule Details";
     }
-    
+
 }

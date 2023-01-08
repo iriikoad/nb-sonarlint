@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
 import org.openide.cookies.EditorCookie;
@@ -17,6 +18,7 @@ import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.text.Line;
 import org.openide.util.Lookup;
+import org.radar.radarlint.ui.SonarOnFlyTopComponent;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.Issue;
 
 /**
@@ -73,7 +75,22 @@ public final class EditorAnnotator {
                     editorAnnotationsByFile.putIfAbsent(fileObject.getPath(), new LinkedList<>());
                     List<IssueAnnotation> editorAnnotations = editorAnnotationsByFile.get(fileObject.getPath());
                     editorAnnotations.add(editorAnnotation);
-                    
+
+                    //AD: to go to line from Table On Fly
+                    editorAnnotation.setGotoLine(() -> {
+                        line.show(Line.ShowOpenType.OPEN, Line.ShowVisibilityType.FRONT);
+                    });
+                    editorAnnotation.setUpdateLine(() -> {
+                        if (!editorAnnotation.getSeverity().isVisible()) {
+                            editorAnnotation.detach();
+                        } else {
+                            editorAnnotation.attach(line);
+                        }
+                    });
+                    editorAnnotation.getUpdateLine().run();
+
+                    SonarOnFlyTopComponent.setData(fileObject, editorAnnotations);
+
                     LOGGER.log(Level.INFO, "Attached Issue: {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}", new Object[]{issue.getInputFile().relativePath(), issue.getStartLine(), issue.getStartLineOffset(), issue.getEndLine(), issue.getEndLineOffset(), issue.getSeverity(), issue.getRuleName(), issue.getType(), issue.getMessage()});
                     return true;
                 }
@@ -101,6 +118,7 @@ public final class EditorAnnotator {
             annotation.detach();
         });
         editorAnnotationsByFile.remove(fileObject.getPath());
+        SonarOnFlyTopComponent.setData(fileObject, List.of());
     }
     
     public List<FileObject> getFileObjects(Project project) {

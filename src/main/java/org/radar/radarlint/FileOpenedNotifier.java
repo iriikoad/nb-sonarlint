@@ -5,16 +5,19 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
+
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
+import org.radar.radarlint.ui.SonarOnFlyTopComponent;
 
 /**
  * A component to notify when files are opened.
- * 
- * Used for attaching editor annotations because the data object is not available if it is not opened in the editor.
- * 
+ *
+ * Used for attaching editor annotations because the data object is not
+ * available if it is not opened in the editor.
+ *
  * @author Victor
  */
 public class FileOpenedNotifier implements PropertyChangeListener {
@@ -25,17 +28,27 @@ public class FileOpenedNotifier implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
-        if(TopComponent.Registry.PROP_TC_OPENED.equals(event.getPropertyName())) {
+        System.out.println("event " + event.getPropertyName() + " " + event.getNewValue());
+        if (TopComponent.Registry.PROP_ACTIVATED.equals(event.getPropertyName())) {
+            if (event.getNewValue() instanceof TopComponent) {
+                getFileObject((TopComponent) event.getNewValue() )
+                        .ifPresent(fileObject -> {
+                            SonarOnFlyTopComponent.setData(fileObject, null);
+                        });
+
+            }
+        }
+        if (TopComponent.Registry.PROP_TC_OPENED.equals(event.getPropertyName())) {
             getFileObject((TopComponent) event.getNewValue()).ifPresent(fileObject -> {
-                try{
+                try {
                     SonarLintScanner.of(fileObject).ifPresent(scanner -> scanner.runAsync());
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
             });
-        } else if(TopComponent.Registry.PROP_TC_CLOSED.equals(event.getPropertyName())) {
+        } else if (TopComponent.Registry.PROP_TC_CLOSED.equals(event.getPropertyName())) {
             getFileObject((TopComponent) event.getNewValue())
-                .ifPresent(fileObject -> EditorAnnotator.getInstance().cleanEditorAnnotations(fileObject));
+                    .ifPresent(fileObject -> EditorAnnotator.getInstance().cleanEditorAnnotations(fileObject));
         }
     }
 

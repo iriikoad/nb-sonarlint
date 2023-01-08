@@ -29,6 +29,14 @@ public class SonarLintPropertiesComponent extends javax.swing.JPanel {
         excludedFilePatternsTextfield.setText(patterns);
     }
 
+    public String getProjectKey() {
+        return jTextFieldProjectKey.getText();
+    }
+
+    public void setProjectKey(String pkey) {
+        jTextFieldProjectKey.setText(pkey);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,6 +50,8 @@ public class SonarLintPropertiesComponent extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         excludedFilePatternsTextfield = new javax.swing.JTextArea();
+        jLabel2 = new javax.swing.JLabel();
+        jTextFieldProjectKey = new javax.swing.JTextField();
 
         org.openide.awt.Mnemonics.setLocalizedText(activeCheckbox, org.openide.util.NbBundle.getMessage(SonarLintPropertiesComponent.class, "SonarLintPropertiesComponent.activeCheckbox.text")); // NOI18N
 
@@ -51,6 +61,15 @@ public class SonarLintPropertiesComponent extends javax.swing.JPanel {
         excludedFilePatternsTextfield.setRows(5);
         jScrollPane1.setViewportView(excludedFilePatternsTextfield);
 
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(SonarLintPropertiesComponent.class, "SonarLintPropertiesComponent.jLabel2.text")); // NOI18N
+
+        jTextFieldProjectKey.setText(org.openide.util.NbBundle.getMessage(SonarLintPropertiesComponent.class, "SonarLintPropertiesComponent.jTextFieldProjectKey.text")); // NOI18N
+        jTextFieldProjectKey.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldProjectKeyActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -59,10 +78,15 @@ public class SonarLintPropertiesComponent extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(activeCheckbox)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(activeCheckbox)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldProjectKey)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -70,19 +94,28 @@ public class SonarLintPropertiesComponent extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(activeCheckbox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextFieldProjectKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTextFieldProjectKeyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldProjectKeyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldProjectKeyActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox activeCheckbox;
     private javax.swing.JTextArea excludedFilePatternsTextfield;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextFieldProjectKey;
     // End of variables declaration//GEN-END:variables
 }
