@@ -7,14 +7,22 @@ To see the rule details, put the caret position in the line with a issue and cho
 
 ## Global Settings ##
 
+
+![Config](./imgs/options.png)
+
+
 The SonarQube server url (default is http://localhost:9000) and security user token can be set in **Tools > Options > Miscellaneous > SonarQube**. 
 
 ## Per Project Properties ##
+
+![Config project](./imgs/project_conf.png)
 
 SonarLint can be enabled (default value) or disabled per project in **Properties > SonarLint** (for example, if the SonarQube server is down). A list of excluded files can also be defined in this section.
 You can specified the project key of the SonarQube project too if not found.
 
 ## Sonar On Fly view ##
+
+![Sonar On Fly](./imgs/table.png)
 
 Menu **Window > Sonar On Fly** shows in the output a view to:
 - turn off/on Sonar analyse
@@ -29,7 +37,9 @@ This view is updated when the document is saved, or checkbox "Activate" or combo
 
 ## Installation ##
 
-The plan is that after some stabilization, the plugin will be in the Netbeans plugin portal and in the Update center. Meanwhile, you can compile the plugin with maven (execute **mvn install**, plugin file with the nbm extension will be generated in the target directory) and do a [manual installation](http://wiki.netbeans.org/InstallingAPlugin).
+Download the NBM and install using  **Tools > Plugins**.
+
+Meanwhile, you can compile the plugin with maven (execute **mvn install**, plugin file with the nbm extension will be generated in the target directory) and do a [manual installation](http://wiki.netbeans.org/InstallingAPlugin).
 
 The project was made with Java 11.
 
